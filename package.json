@@ -1,0 +1,17 @@
+{
+  "name": "deviantart-top",
+  "version": "0.1.0",
+  "description": "",
+  "main": "js/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "webpack --progress --colors --watch",
+    "serve": "webpack-dev-server --content-base=../ --hot"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "webpack": "^1.5.3",
+    "jsx-loader": "^0.12.2"
+  }
+}

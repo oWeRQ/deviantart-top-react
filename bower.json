@@ -1,0 +1,26 @@
+{
+  "name": "deviantart-top",
+  "version": "0.1.0",
+  "authors": [
+    "Maxim Soldatov <fomaxi@gmail.com>"
+  ],
+  "main": "js/index.js",
+  "moduleType": [
+    "amd"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "devDependencies": {
+    "react": "~0.12.2",
+    "requirejs": "~2.1.16",
+    "jsx-requirejs-plugin": "~0.5.2",
+    "jquery": "~2.1.3"
+  }
+}
