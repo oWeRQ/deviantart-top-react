@@ -1,4 +1,7 @@
-define(['react', 'jsx!./Images'], function(React, Images){
+define(function(require){
+	var React = require('react');
+	var Images = require('jsx!./Images');
+
 	return React.createClass({
 		render: function() {
 			return (

@@ -1,4 +1,8 @@
-define(['jquery', 'react', 'jsx!./Image'], function($, React, Image){
+define(function(require){
+	var jQuery = require('jquery');
+	var React = require('react');
+	var Image = require('jsx!./Image');
+
 	return React.createClass({
 		getInitialState: function(){
 			return {
@@ -7,14 +11,10 @@ define(['jquery', 'react', 'jsx!./Image'], function($, React, Image){
 			};
 		},
 
-		componentWillMount: function(){
-			console.log('Images.componentWillMount', this.key, this.props.key);
-		},
-
 		moreImagesClick: function(e){
 			e.preventDefault();
 
-			$.ajax({
+			jQuery.ajax({
 				url: this.props.baseUrl,
 				type: 'post',
 				dataType: 'json',

@@ -1,37 +1,58 @@
-define(['jquery', 'react'], function($, React){
+define(function(require){
+	var React = require('react');
+	var Reflux = require('reflux');
+	var Actions = require('Actions');
+	var GalleriesStore = require('stores/GalleriesStore');
+	var FilterStore = require('stores/FilterStore');
+
 	return React.createClass({
-		handleSubmit: function(e){
-			e.preventDefault();
-			
-			this.submit();
+		mixins: [
+			Reflux.connect(GalleriesStore, 'galleriesList'),
+			Reflux.connect(FilterStore)
+		],
+
+		inputHandler: function(e){
+			Actions.filterValue(e.target.name, e.target.value, e.target.checked);
 		},
 
-		submit: function(){
-			this.props.pages.setProps({
-				url: rootUrl + '?ajax=1&' + $(this.getDOMNode()).serialize()
-			});
+		submitHandler: function(e){
+			e.preventDefault();
+			
+			Actions.filterLoad();
+		},
+
+		checkAllHandler: function(e){
+			e.preventDefault();
+
+			Actions.filterCheckAll();
+		},
+
+		uncheckAllHandler: function(e){
+			e.preventDefault();
+
+			Actions.filterUncheckAll();
 		},
 
 		render: function(){
 			return (
-				<form onSubmit={this.handleSubmit} className="b-form b-form_filter">
+				<form onChange={this.inputHandler} onSubmit={this.submitHandler} className="b-form b-form_filter">
 					<div className="row">
-						<input type="text" name="title" placeholder="Search" /><a href="#" className="clearInput"></a>
+						<input type="text" name="title" value={this.state.title} placeholder="Search" /><a href="#" className="clearInput"></a>
 					</div>
 
 					<div className="b-form-legend m-open">Collections</div>
 					<div className="b-form-fieldset">
 						<div className="checkboxes">
 							<div className="controls">
-								<a href="#" className="checkAll">Check All</a>
-								| <a href="#" className="uncheckAll">Uncheck All</a>
+								<a href="#" className="checkAll" onClick={this.checkAllHandler}>Check All</a>
+								| <a href="#" className="uncheckAll" onClick={this.uncheckAllHandler}>Uncheck All</a>
 							</div>
-							{this.props.galleries.map(function(gallery, i){
+							{this.state.galleriesList.map(function(gallery, i){
 								return (
 									<div key={gallery.title}>
-										<input className="exclude" type="checkbox" name="exclude[]" value={gallery.title} />
+										<input className="exclude" type="checkbox" name="exclude[]" value={gallery.title} checked={this.state.exclude.indexOf(gallery.title) !== -1} />
 										<label>
-											<input type="checkbox" name="galleries[]" value={gallery.title} defaultChecked={gallery.title === 'Abstract'} />
+											<input type="checkbox" name="galleries[]" value={gallery.title} checked={this.state.galleries.indexOf(gallery.title) !== -1} />
 											{gallery.title}
 											<small>({gallery.approx_total})</small>&nbsp;
 										</label>
@@ -40,9 +61,9 @@ define(['jquery', 'react'], function($, React){
 							}.bind(this))}
 						</div>
 						<div className="row">
-							<label><input type="radio" name="condition" value="or" defaultChecked /> OR</label>
-							<label><input type="radio" name="condition" value="and" /> AND</label>
-							<label><input type="radio" name="condition" value="only" /> ONLY</label>
+							<label><input type="radio" name="condition" value="or" checked={this.state.condition === 'or'} /> OR</label>
+							<label><input type="radio" name="condition" value="and" checked={this.state.condition === 'and'} /> AND</label>
+							<label><input type="radio" name="condition" value="only" checked={this.state.condition === 'only'} /> ONLY</label>
 						</div>
 					</div>
 
@@ -50,32 +71,32 @@ define(['jquery', 'react'], function($, React){
 					<div className="b-form-fieldset">
 						<div className="row b-inline">
 							<label>Favorites:</label>
-							<input type="text" name="minFavs" defaultValue="1" />
+							<input type="text" name="minFavs" value={this.state.minFavs} />
 							<a href="#" className="clearInput"></a>
 						</div>
 						<div className="row b-inline">
 							<label>Max Favs:</label>
-							<input type="text" name="maxFavs" defaultValue="0" />
+							<input type="text" name="maxFavs" value={this.state.maxFavs} />
 							<a href="#" className="clearInput"></a>
 						</div>
 						<div className="row b-inline">
 							<label>Deviations:</label>
-							<input type="text" name="minDevia" defaultValue="0" />
+							<input type="text" name="minDevia" value={this.state.minDevia} />
 							<a href="#" className="clearInput"></a>
 						</div>
 						<div className="row b-inline">
 							<label>Images:</label>
-							<input type="text" name="imagesLimit" defaultValue="20" />
+							<input type="text" name="imagesLimit" value={this.state.imagesLimit} />
 							<a href="#" className="clearInput"></a>
 						</div>
 						<div className="row b-inline">
 							<label>Top:</label>
-							<input type="text" name="topLimit" defaultValue="10" />
+							<input type="text" name="topLimit" value={this.state.topLimit} />
 							<a href="#" className="clearInput"></a>
 						</div>
 						<div className="row b-inline">
 							<label>Page:</label>
-							<input type="text" name="page" defaultValue="1" />
+							<input type="text" name="page" value={this.state.page} />
 							<a href="#" className="clearInput"></a>
 						</div>
 					</div>
@@ -84,7 +105,7 @@ define(['jquery', 'react'], function($, React){
 					<div className="b-form-fieldset">
 						<div className="row b-inline">
 							<label>By:</label>
-							<select name="sort">
+							<select name="sort" value={this.state.sort}>
 								<option value="score">Score</option>
 								<option value="wilson_score">Wilson Score</option>
 								<option value="percent">Percent</option>
@@ -95,14 +116,14 @@ define(['jquery', 'react'], function($, React){
 						</div>
 						<div className="row b-inline">
 							<label>Total:</label>
-							<select name="sortTotal">
+							<select name="sortTotal" value={this.state.sortTotal}>
 								<option value="deviations">Deviations</option>
 								<option value="favourites">Favourites</option>
 							</select>
 						</div>
 						<div className="row b-inline">
 							<label>Dir:</label>
-							<select name="sortDir">
+							<select name="sortDir" value={this.state.sortDir}>
 								<option value="1">Desc</option>
 								<option value="-1">Asc</option>
 							</select>

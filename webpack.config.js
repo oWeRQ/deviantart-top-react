@@ -15,7 +15,6 @@ module.exports = {
 		],
 		alias: {
 			react: 'react/react-with-addons'
-			//jquery: './bower_components/jquery/dist/jquery.min'
 		}
 	},
 	plugins: [

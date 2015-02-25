@@ -18,9 +18,12 @@
     "tests"
   ],
   "devDependencies": {
-    "react": "~0.12.2",
     "requirejs": "~2.1.16",
-    "jsx-requirejs-plugin": "~0.5.2",
+    "jsx-requirejs-plugin": "~0.5.2"
+  },
+  "dependencies": {
+    "react": "~0.12.2",
+    "reflux": "~0.2.5",
     "jquery": "~2.1.3"
   }
 }

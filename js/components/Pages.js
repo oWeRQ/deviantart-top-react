@@ -1,103 +1,25 @@
-define(['jquery', 'react', 'jsx!./Page'], function($, React, Page){
+define(function(require){
+	var React = require('react');
+	var Reflux = require('reflux');
+	var Actions = require('Actions');
+	var PagesStore = require('stores/PagesStore');
+	var Page = require('jsx!./Page');
+
 	return React.createClass({
-		getInitialState: function(){
-			return {
-				disabled: false,
-				totalPages: 0,
-				startPage: 0,
-				endPage: 0,
-				baseUrl: null,
-				prevUrl: null,
-				nextUrl: null,
-				pages: [],
-			};
-		},
+		mixins: [Reflux.connect(PagesStore)],
 
 		activeImages: null,
 
-		componentWillReceiveProps: function(nextProps){
-			if (nextProps.url !== this.props.url)
-				this.fetch(nextProps.url);
-		},
-
-		fetch: function(url){
-			this.setState({
-				disabled: true
-			});
-
-			$.ajax({
-				url: url,
-				dataType: 'json',
-				success: function(result){
-					this.setState({
-						disabled: false,
-						totalPages: result.pages,
-						startPage: result.page,
-						endPage: result.page,
-						baseUrl: result.baseUrl,
-						prevUrl: result.prevUrl,
-						nextUrl: result.nextUrl,
-						pages: [
-							{
-								authors: result.authors,
-								page: result.page,
-								topOffset: result.topOffset
-							}
-						]
-					});
-				}.bind(this),
-				error: function(xhr, status, err){
-					console.error('Pages.fetch', status, err.toString());
-				}.bind(this)
-			});
-		},
-
 		prevPageClick: function(e){
 			e.preventDefault();
- 
-			$.ajax({
-				url: rootUrl + this.state.prevUrl + '&ajax=1',
-				dataType: 'json',
-				success: function(result) {
-					this.state.pages.unshift({
-						authors: result.authors,
-						page: result.page,
-						topOffset: result.topOffset
-					});
-					this.setState({
-						prevUrl: result.prevUrl,
-						startPage: result.page,
-						pages: this.state.pages
-					});
-				}.bind(this),
-				error: function(xhr, status, err) {
-					console.error(this.state.prevUrl, status, err.toString());
-				}.bind(this)
-			});
+
+			Actions.loadPrev();
 		},
 
 		nextPageClick: function(e){
 			e.preventDefault();
 
-			$.ajax({
-				url: rootUrl + this.state.nextUrl + '&ajax=1',
-				dataType: 'json',
-				success: function(result) {
-					this.state.pages.push({
-						authors: result.authors,
-						page: result.page,
-						topOffset: result.topOffset
-					});
-					this.setState({
-						nextUrl: result.nextUrl,
-						endPage: result.page,
-						pages: this.state.pages
-					});
-				}.bind(this),
-				error: function(xhr, status, err) {
-					console.error(this.state.nextUrl, status, err.toString());
-				}.bind(this)
-			});
+			Actions.loadNext();
 		},
 
 		onActivateImages: function(images){
