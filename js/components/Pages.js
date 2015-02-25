@@ -4,6 +4,7 @@ define(function(require){
 	var Actions = require('Actions');
 	var PagesStore = require('stores/PagesStore');
 	var Page = require('jsx!./Page');
+	var Images = require('jsx!./Images');
 
 	return React.createClass({
 		mixins: [Reflux.connect(PagesStore)],
@@ -40,7 +41,13 @@ define(function(require){
 
 					<div className="b-pages-list">
 						{this.state.pages.map(function(page, i){
-							return <Page onActivateImages={this.onActivateImages} key={page.page} authors={page.authors} page={page.page} topOffset={page.topOffset} baseUrl={baseUrl} />;
+							return (
+								<Page key={page.page} num={page.page}>
+									{page.authors.map(function(author, i){
+										return <Images onActivateImages={this.onActivateImages} key={author.username} author={author} num={page.topOffset + i + 1} baseUrl={baseUrl} />;
+									}, this)}
+								</Page>
+							);
 						}, this)}
 					</div>
 
