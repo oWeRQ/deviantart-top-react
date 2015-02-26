@@ -1,37 +1,19 @@
 define(function(require){
-	var jQuery = require('jquery');
 	var React = require('react');
+	var Actions = require('Actions');
 	var Image = require('jsx!./Image');
 
 	return React.createClass({
 		getInitialState: function(){
 			return {
-				images: this.props.author.images,
 				active: false
 			};
 		},
 
-		moreImagesClick: function(e){
+		moreHandler: function(e){
 			e.preventDefault();
 
-			jQuery.ajax({
-				url: this.props.baseUrl,
-				type: 'post',
-				dataType: 'json',
-				data: {
-					username: this.props.author.username,
-					imagesOffset: this.state.images.length,
-					ajax: 1
-				},
-				success: function(result) {
-					this.setState({
-						images: this.state.images.concat(result.authors[0].images)
-					});
-				}.bind(this),
-				error: function(xhr, status, err) {
-					console.error(this.props.baseUrl, status, err.toString());
-				}.bind(this)
-			});
+			Actions.loadMore(this.props.author.username);
 		},
 
 		activate: function(){
@@ -48,8 +30,8 @@ define(function(require){
 		},
 
 		render: function(){
-			var moreImagesCount = this.props.author.favourites - this.state.images.length;
-			var images = this.state.images.map(function(image){
+			var moreCount = this.props.author.favourites - this.props.author.images.length;
+			var images = this.props.author.images.map(function(image){
 				return <Image key={image.id} {...image} />;
 			});
 
@@ -76,7 +58,7 @@ define(function(require){
 					<ul className="b-inline b-images-list">
 						{images}
 					</ul>
-					{moreImagesCount > 0 ? <a href="#" onClick={this.moreImagesClick} className="m-moreImages">More Images (<span className="count">{moreImagesCount}</span>)</a> : null}
+					{moreCount > 0 ? <a href="#" onClick={this.moreHandler} className="m-moreImages">More Images (<span className="count">{moreCount}</span>)</a> : null}
 				</div>
 			);
 		}

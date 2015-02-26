@@ -10,6 +10,7 @@ define(function(require){
 		'load',
 		'loadPrev',
 		'loadNext',
-		'loadMore'
+		'loadMore',
+		'setGalleries'
 	]);
 });

@@ -1,10 +1,11 @@
 define(function(require){
-	var Actions = require('Actions');
 	var Reflux = require('reflux');
-	var GalleriesStore = require('stores/GalleriesStore');
+	var Actions = require('Actions');
 
 	return Reflux.createStore({
 		listenables: [Actions],
+
+		allGalleries: [],
 
 		getInitialState: function () {
 			this.state = {
@@ -43,9 +44,7 @@ define(function(require){
 		},
 
 		onFilterCheckAll: function(){
-			this.state.galleries = GalleriesStore.list.map(function(gallery){
-				return gallery.title;
-			});
+			this.state.galleries = this.allGalleries.slice(0);
 			this.trigger(this.state);
 		},
 
@@ -56,6 +55,12 @@ define(function(require){
 
 		onFilterLoad: function(){
 			Actions.load(this.state);
+		},
+
+		onSetGalleries: function(galleries){
+			this.allGalleries = galleries.map(function(gallery){
+				return gallery.title;
+			});
 		}
 	});
 });

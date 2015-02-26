@@ -21,4 +21,5 @@ define(function(require){
 	);
 
 	Actions.loadGalleries();
+	Actions.filterLoad();
 });

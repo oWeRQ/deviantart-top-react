@@ -30,7 +30,7 @@ define(function(require){
 			this.activeImages = images;
 		},
 
-		render: function() {
+		render: function(){
 			var baseUrl = rootUrl + this.state.baseUrl;
 
 			return (
@@ -44,7 +44,7 @@ define(function(require){
 							return (
 								<Page key={page.page} num={page.page}>
 									{page.authors.map(function(author, i){
-										return <Images onActivateImages={this.onActivateImages} key={author.username} author={author} num={page.topOffset + i + 1} baseUrl={baseUrl} />;
+										return <Images onActivateImages={this.onActivateImages} key={author.username} author={author} num={page.topOffset + i + 1} />;
 									}, this)}
 								</Page>
 							);
