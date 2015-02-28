@@ -11,6 +11,10 @@ define(function(require){
 		'loadPrev',
 		'loadNext',
 		'loadMore',
-		'setGalleries'
+		'setGalleries',
+		'galleryClose',
+		'galleryShow',
+		'galleryNext',
+		'galleryPrev'
 	]);
 });

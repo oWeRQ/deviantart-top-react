@@ -1,0 +1,124 @@
+.b-gallery {
+	position: fixed;
+	z-index: 100;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	background: rgba(0,0,0,.9);
+}
+.b-gallery-close {
+	position: absolute;
+	z-index: 1;
+	top: 0;
+	right: 0;
+	padding: 20px;
+	text-decoration: none;
+	line-height: 0.84;
+	font-size: 40px;
+	color: white;
+	cursor: pointer;
+	opacity: .2;
+}
+.b-gallery-close:hover {
+	color: white;
+	opacity: .4;
+}
+.b-gallery-close::after {
+	content: '\2716'; /* cross */
+}
+.b-gallery-imageWrap {
+	position: absolute;
+	top: 0;
+	right: 0;
+	left: 0;
+	bottom: 160px;
+	text-align: center;
+}
+.b-gallery-imageWrap::after {
+	content: '';
+	display: inline-block;
+	vertical-align: middle;
+	height: 100%;
+}
+.b-gallery-image {
+	display: inline-block;
+	vertical-align: middle;
+	max-width: 100%;
+	max-height: 100%;
+}
+.b-gallery-prev {
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	width: 140px;
+	cursor: pointer;
+}
+.b-gallery-next {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	width: 140px;
+	cursor: pointer;
+}
+.b-gallery-prev:hover,
+.b-gallery-next:hover {
+	background: rgba(255,255,255,.1);
+}
+.b-gallery-prev::after {
+	content: '\2190';
+}
+.b-gallery-next::after {
+	content: '\2192';
+}
+.b-gallery-prev::after,
+.b-gallery-next::after {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-top: -20px;
+	margin-left: -20px;
+	width: 40px;
+	height: 40px;
+	line-height: 0.84;
+	font-size: 40px;
+	color: white;
+}
+.b-gallery-thumbsWrap {
+	overflow-x: auto;
+	overflow-y: hidden;
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	padding-bottom: 15px;
+	height: 140px;
+}
+.b-gallery-thumbs {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	padding-left: 12px;
+	padding-right: 20px;
+	font-size: 0;
+	text-align: center;
+	white-space: nowrap;
+}
+.b-gallery-thumbs > li {
+	display: inline-block;
+	vertical-align: middle;
+	margin: 7px 0;
+}
+.b-gallery-thumbs img {
+	vertical-align: middle;
+	border: 3px solid rgba(255,255,255,0);
+	border-radius: 3px;
+	transition: 300ms;
+}
+.b-gallery-thumbs img.m-active {
+	z-index: 1;
+	border-color: rgba(255,255,255,.8);
+	transform: scale(1.1);
+}

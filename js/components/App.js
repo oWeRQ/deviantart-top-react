@@ -2,6 +2,7 @@ define(function(require){
 	var React = require('react');
 	var Filter = require('jsx!components/Filter');
 	var Pages = require('jsx!components/Pages');
+	var Gallery = require('jsx!components/Gallery');
 
 	return React.createClass({
 		render: function(){
@@ -14,6 +15,8 @@ define(function(require){
 					<div className="l-content">
 						<Pages />
 					</div>
+
+					<Gallery />
 				</div>
 			);
 		}

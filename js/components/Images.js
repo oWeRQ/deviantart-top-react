@@ -10,6 +10,10 @@ define(function(require){
 			};
 		},
 
+		showHandler: function(image){
+			Actions.galleryShow(image);
+		},
+
 		moreHandler: function(e){
 			e.preventDefault();
 
@@ -32,8 +36,8 @@ define(function(require){
 		render: function(){
 			var moreCount = this.props.author.favourites - this.props.author.images.length;
 			var images = this.props.author.images.map(function(image){
-				return <Image key={image.id} {...image} />;
-			});
+				return <Image onClick={this.showHandler.bind(this, image)} key={image.id} {...image} />;
+			}, this);
 
 			return (
 				<div className={React.addons.classSet({'b-images': true, 'm-active': this.state.active})} onClick={this.activate}>
