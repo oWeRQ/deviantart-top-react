@@ -6,6 +6,8 @@ define(function(require){
 	var FilterStore = require('stores/FilterStore');
 
 	return React.createClass({
+		displayName: 'Filter',
+
 		mixins: [
 			Reflux.connect(GalleriesStore, 'galleriesList'),
 			Reflux.connect(FilterStore)

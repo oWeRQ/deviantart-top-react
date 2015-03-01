@@ -5,6 +5,8 @@ define(function(require){
 	var Gallery = require('jsx!components/Gallery');
 
 	return React.createClass({
+		displayName: 'App',
+
 		render: function(){
 			return (
 				<div className="l-wrap">

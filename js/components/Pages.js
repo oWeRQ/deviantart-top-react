@@ -7,9 +7,9 @@ define(function(require){
 	var Images = require('jsx!./Images');
 
 	return React.createClass({
-		mixins: [Reflux.connect(PagesStore)],
+		displayName: 'Pages',
 
-		activeImages: null,
+		mixins: [Reflux.connect(PagesStore)],
 
 		prevPageClick: function(e){
 			e.preventDefault();
@@ -21,13 +21,6 @@ define(function(require){
 			e.preventDefault();
 
 			Actions.loadNext();
-		},
-
-		onActivateImages: function(images){
-			if (this.activeImages)
-				this.activeImages.deactivate();
-
-			this.activeImages = images;
 		},
 
 		render: function(){
@@ -44,7 +37,7 @@ define(function(require){
 							return (
 								<Page key={page.page} num={page.page}>
 									{page.authors.map(function(author, i){
-										return <Images onActivateImages={this.onActivateImages} key={author.username} author={author} num={page.topOffset + i + 1} />;
+										return <Images key={author.username} author={author} num={page.topOffset + i + 1} />;
 									}, this)}
 								</Page>
 							);

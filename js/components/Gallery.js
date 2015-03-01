@@ -5,6 +5,8 @@ define(function(require){
 	var GalleryStore = require('stores/GalleryStore');
 
 	return React.createClass({
+		displayName: 'Gallery',
+
 		mixins: [Reflux.connect(GalleryStore)],
 
 		render: function(){

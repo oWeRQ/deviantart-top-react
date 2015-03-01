@@ -15,6 +15,14 @@ define(function(require){
 		'galleryClose',
 		'galleryShow',
 		'galleryNext',
-		'galleryPrev'
+		'galleryPrev',
+		'authorSelect',
+		'imagesSelect',
+		'imagesSelectTo',
+		'imagesSelectAll',
+		'imagesCheck',
+		'imagesAdd',
+		'imagesRemove',
+		'imagesDelete'
 	]);
 });

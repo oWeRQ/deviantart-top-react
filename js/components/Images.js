@@ -1,17 +1,34 @@
 define(function(require){
 	var React = require('react');
+	var Reflux = require('reflux');
 	var Actions = require('Actions');
+	var GalleriesStore = require('stores/GalleriesStore');
+	var Select = require('jsx!./Select');
 	var Image = require('jsx!./Image');
 
 	return React.createClass({
+		displayName: 'Images',
+
+		//mixins: [Reflux.connect(GalleriesStore, 'galleriesList')],
+
 		getInitialState: function(){
 			return {
-				active: false
+				galleriesList: GalleriesStore.list
 			};
 		},
 
-		showHandler: function(image){
-			Actions.galleryShow(image);
+		onGalleriesChange: function(galleriesList) {
+			this.setState({
+				galleriesList: galleriesList
+			});
+		},
+
+		componentDidMount: function() {
+			this.unsubscribeGalleries = GalleriesStore.listen(this.onGalleriesChange);
+		},
+
+		componentWillUnmount: function() {
+			this.unsubscribeGalleries();
 		},
 
 		moreHandler: function(e){
@@ -20,32 +37,37 @@ define(function(require){
 			Actions.loadMore(this.props.author.username);
 		},
 
-		activate: function(){
-			this.setState({
-				active: true
-			});
-			this.props.onActivateImages(this);
-		},
-
-		deactivate: function(){
-			this.setState({
-				active: false
-			});
-		},
-
 		render: function(){
 			var moreCount = this.props.author.favourites - this.props.author.images.length;
+			var imagesSelected = 0;
 			var images = this.props.author.images.map(function(image){
-				return <Image onClick={this.showHandler.bind(this, image)} key={image.id} {...image} />;
+				if (image.selected)
+					imagesSelected++;
+				return <Image onClick={Actions.galleryShow.bind(this, image)} key={image.id} image={image} />;
 			}, this);
 
 			return (
-				<div className={React.addons.classSet({'b-images': true, 'm-active': this.state.active})} onClick={this.activate}>
+				<div className={React.addons.classSet({'b-images': true, 'm-active': this.props.author.selected})} onClick={Actions.authorSelect.bind(null, this.props.author)}>
 					<div className="b-images-actions">
-						<span className="m-button m-down i-checkAll"><input className="i-checkAll-checkbox" type="checkbox" /></span>
-						<span className="m-button m-down i-addGallery" data-action="addGallery">Add Collection</span>
-						<span className="m-button m-down i-removeGallery" data-action="removeGallery">Remove Collection</span>
-						<span className="m-button i-deleteFavourite">Delete Favourites</span>
+						<Select onChange={Actions.imagesSelectAll} text={
+							<input type="checkbox" onChange={Actions.imagesSelectAll.bind(null, {select: 'invert'})} checked={this.props.author.images.length === imagesSelected} />
+						} options={[
+							{
+								title: 'All',
+								select: 'all'
+							},
+							{
+								title: 'Invert',
+								select: 'invert'
+							},
+							{
+								title: 'None',
+								select: 'none'
+							}
+						]} />
+						<Select onChange={Actions.imagesAdd} text="Add Collection" options={this.state.galleriesList} />
+						<Select onChange={Actions.imagesRemove} text="Remove Collection" options={this.state.galleriesList} />
+						<span onClick={Actions.imagesDelete} className="m-button">Delete Favourites</span>
 					</div>
 					<h3>
 						<span className="b-images-number">{this.props.num}</span>

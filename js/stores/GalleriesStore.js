@@ -7,6 +7,7 @@ define(function(require){
 		listenables: [Actions],
 
 		getInitialState: function () {
+			//console.log('GalleriesStore.getInitialState', this);
 			this.list = [];
 			return this.list;
 		},
