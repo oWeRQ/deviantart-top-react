@@ -205,8 +205,11 @@ define(function(require){
 			this.trigger(this.state);
 		},
 
-		onImagesSelect: function(image){
-			image.selected = !image.selected;
+		onImagesSelect: function(image, selected){
+			if (selected !== undefined)
+				image.selected = selected;
+			else
+				image.selected = !image.selected;
 
 			this.state.selectedImage = image;
 

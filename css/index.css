@@ -87,8 +87,7 @@
 	color: white;
 }
 .b-gallery-thumbsWrap {
-	overflow-x: auto;
-	overflow-y: hidden;
+	overflow: hidden;
 	position: absolute;
 	left: 0;
 	right: 0;
@@ -97,6 +96,7 @@
 	height: 140px;
 }
 .b-gallery-thumbs {
+	position: relative;
 	list-style: none;
 	margin: 0;
 	padding: 0;
@@ -105,20 +105,24 @@
 	font-size: 0;
 	text-align: center;
 	white-space: nowrap;
+	transition: left 500ms;
 }
 .b-gallery-thumbs > li {
 	display: inline-block;
 	vertical-align: middle;
 	margin: 7px 0;
+	margin-right: -3px;
 }
 .b-gallery-thumbs img {
 	vertical-align: middle;
 	border: 3px solid rgba(255,255,255,0);
-	border-radius: 3px;
 	transition: 300ms;
 }
 .b-gallery-thumbs img.m-active {
 	z-index: 1;
-	border-color: rgba(255,255,255,.8);
+	border-color: rgba(255,255,255,.7);
 	transform: scale(1.1);
+}
+.b-gallery-thumbs img.m-selected {
+	border-color: rgba(51,102,204,.7);
 }

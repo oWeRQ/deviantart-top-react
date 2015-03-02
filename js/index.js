@@ -6,7 +6,8 @@ require.config({
 		JSXTransformer: '../bower_components/jsx-requirejs-plugin/js/JSXTransformer',
 		react: '../bower_components/react/react-with-addons',
 		reflux: '../bower_components/reflux/dist/reflux.min',
-		jquery: '../bower_components/jquery/dist/jquery.min'
+		jquery: '../bower_components/jquery/dist/jquery.min',
+		Keypress: '../bower_components/Keypress/keypress-2.1.0.min'
 	}
 });
 
