@@ -56,6 +56,11 @@ define(function(require){
 			if (newIdx >= this.state.images.length)
 				newIdx = 0;
 			Actions.galleryShow(this.state.images[newIdx]);
+		},
+
+		onLoadMoreComplete: function(author){
+			if (this.state.username === author.username)
+				this.trigger(this.state);
 		}
 	});
 });

@@ -11,6 +11,7 @@ define(function(require){
 		'loadPrev',
 		'loadNext',
 		'loadMore',
+		'loadMoreComplete',
 		'setGalleries',
 		'galleryClose',
 		'galleryShow',

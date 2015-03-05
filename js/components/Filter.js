@@ -4,6 +4,7 @@ define(function(require){
 	var Actions = require('Actions');
 	var GalleriesStore = require('stores/GalleriesStore');
 	var FilterStore = require('stores/FilterStore');
+	var TextInput = require('jsx!./TextInput');
 
 	return React.createClass({
 		displayName: 'Filter',
@@ -39,7 +40,7 @@ define(function(require){
 			return (
 				<form onChange={this.inputHandler} onSubmit={this.submitHandler} className="b-form b-form_filter">
 					<div className="row">
-						<input type="text" name="title" value={this.state.title} placeholder="Search" /><a href="#" className="clearInput"></a>
+						<TextInput type="text" name="title" value={this.state.title} defaultValue={FilterStore.defaults.title} placeholder="Search" />
 					</div>
 
 					<div className="b-form-legend m-open">Collections</div>
@@ -73,33 +74,27 @@ define(function(require){
 					<div className="b-form-fieldset">
 						<div className="row b-inline">
 							<label>Favorites:</label>
-							<input type="text" name="minFavs" value={this.state.minFavs} />
-							<a href="#" className="clearInput"></a>
+							<TextInput type="text" name="minFavs" value={this.state.minFavs} defaultValue={FilterStore.defaults.minFavs} />
 						</div>
 						<div className="row b-inline">
 							<label>Max Favs:</label>
-							<input type="text" name="maxFavs" value={this.state.maxFavs} />
-							<a href="#" className="clearInput"></a>
+							<TextInput type="text" name="maxFavs" value={this.state.maxFavs} defaultValue={FilterStore.defaults.maxFavs} />
 						</div>
 						<div className="row b-inline">
 							<label>Deviations:</label>
-							<input type="text" name="minDevia" value={this.state.minDevia} />
-							<a href="#" className="clearInput"></a>
+							<TextInput type="text" name="minDevia" value={this.state.minDevia} defaultValue={FilterStore.defaults.minDevia} />
 						</div>
 						<div className="row b-inline">
 							<label>Images:</label>
-							<input type="text" name="imagesLimit" value={this.state.imagesLimit} />
-							<a href="#" className="clearInput"></a>
+							<TextInput type="text" name="imagesLimit" value={this.state.imagesLimit} defaultValue={FilterStore.defaults.imagesLimit} />
 						</div>
 						<div className="row b-inline">
 							<label>Top:</label>
-							<input type="text" name="topLimit" value={this.state.topLimit} />
-							<a href="#" className="clearInput"></a>
+							<TextInput type="text" name="topLimit" value={this.state.topLimit} defaultValue={FilterStore.defaults.topLimit} />
 						</div>
 						<div className="row b-inline">
 							<label>Page:</label>
-							<input type="text" name="page" value={this.state.page} />
-							<a href="#" className="clearInput"></a>
+							<TextInput type="text" name="page" value={this.state.page} defaultValue={FilterStore.defaults.page} />
 						</div>
 					</div>
 

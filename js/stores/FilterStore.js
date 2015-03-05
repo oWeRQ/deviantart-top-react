@@ -1,28 +1,31 @@
 define(function(require){
 	var Reflux = require('reflux');
 	var Actions = require('Actions');
+	var jQuery = require('jquery');
 
 	return Reflux.createStore({
 		listenables: [Actions],
 
 		allGalleries: [],
 
+		defaults: {
+			title: '',
+			galleries: ['Abstract'],
+			exclude: [],
+			condition: 'or',
+			minFavs: '1',
+			maxFavs: '0',
+			minDevia: '0',
+			imagesLimit: '20',
+			topLimit: '10',
+			page: '1',
+			sort: 'score',
+			sortTotal: 'deviations',
+			sortDir: '1'
+		},
+
 		getInitialState: function () {
-			this.state = {
-				title: '',
-				galleries: ['Abstract'],
-				exclude: [],
-				condition: 'or',
-				minFavs: '1',
-				maxFavs: '0',
-				minDevia: '0',
-				imagesLimit: '20',
-				topLimit: '10',
-				page: '1',
-				sort: 'score',
-				sortTotal: 'deviations',
-				sortDir: '1'
-			};
+			this.state = jQuery.extend(true, {}, this.defaults);
 			return this.state;
 		},
 

@@ -72,10 +72,12 @@ define(function(require){
 						if (pages[i].authors[j].images[k].id === id) {
 							delete pages[i].authors[j].images[k];
 							pages[i].authors[j].favourites--;
+							return true;
 						}
 					}
 				}
 			}
+			return false;
 		},
 
 		onLoad: function(filter){
@@ -89,7 +91,6 @@ define(function(require){
 			jQuery.ajax({
 				url: rootUrl,
 				data: this.filter,
-				type: 'post',
 				dataType: 'json',
 				success: function(result){
 					this.state = {
@@ -124,7 +125,6 @@ define(function(require){
 			jQuery.ajax({
 				url: rootUrl,
 				data: data,
-				type: 'post',
 				dataType: 'json',
 				success: function(result) {
 					this.state.startPage = result.page;
@@ -150,7 +150,6 @@ define(function(require){
 			jQuery.ajax({
 				url: rootUrl,
 				data: data,
-				type: 'post',
 				dataType: 'json',
 				success: function(result) {
 					this.state.endPage = result.page;
@@ -169,6 +168,11 @@ define(function(require){
 		},
 
 		onLoadMore: function(username){
+			if (this.state.disabled)
+				return;
+
+			this.state.disabled = true;
+
 			var author = this.getAuthor(username);
 
 			var data = jQuery.extend({
@@ -179,11 +183,12 @@ define(function(require){
 			jQuery.ajax({
 				url: rootUrl,
 				data: data,
-				type: 'post',
 				dataType: 'json',
 				success: function(result) {
 					author.images.push.apply(author.images, result.authors[0].images);
+					this.state.disabled = false;
 					this.trigger(this.state);
+					Actions.loadMoreComplete(author);
 				}.bind(this),
 				error: function(xhr, status, err) {
 					console.error('PagesStore.onLoadMore', status, err.toString());
