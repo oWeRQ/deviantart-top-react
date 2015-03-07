@@ -44,7 +44,8 @@ define(function(require){
 		},
 
 		componentWillUnmount: function(){
-			this.listener.unregister_many(this.keys);
+			//this.listener.unregister_many(this.keys);
+			this.listener.destroy();
 		},
 
 		componentDidUpdate: function(prevProps, prevState){
@@ -64,6 +65,8 @@ define(function(require){
 				else
 					this.listener.stop_listening();
 			}
+
+			document.body.classList.toggle('m-gallery', this.state.visible);
 
 			return (
 				<div className="b-gallery" style={{display: this.state.visible ? '' : 'none'}}>
