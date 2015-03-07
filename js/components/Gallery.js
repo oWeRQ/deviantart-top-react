@@ -3,12 +3,24 @@ define(function(require){
 	var Reflux = require('reflux');
 	var Actions = require('Actions');
 	var GalleryStore = require('stores/GalleryStore');
+	var GalleriesStore = require('stores/GalleriesStore');
 	var Keypress = require('Keypress');
 
 	return React.createClass({
 		displayName: 'Gallery',
 
 		mixins: [Reflux.connect(GalleryStore)],
+
+		inputHandler: function(e){
+			if (e.target.name === 'galleries[]') {
+				var gallery = GalleriesStore.getByTitle(e.target.value);
+				if (e.target.checked) {
+					Actions.imagesAdd(gallery, [this.state.image]);
+				} else {
+					Actions.imagesRemove(gallery, [this.state.image]);
+				}
+			}
+		},
 
 		componentDidMount: function(){
 			this.listener = new Keypress.Listener();
@@ -55,24 +67,57 @@ define(function(require){
 
 			return (
 				<div className="b-gallery" style={{display: this.state.visible ? '' : 'none'}}>
-					<a className="b-gallery-close" onClick={Actions.galleryClose}></a>
-					<div className="b-gallery-imageWrap">
-						<img className="b-gallery-image" src={this.state.src} />
-						<a className="b-gallery-prev" onClick={Actions.galleryPrev}></a>
-						<a className="b-gallery-next" onClick={Actions.galleryNext}></a>
-					</div>
-					<div className="b-gallery-thumbsWrap" ref="thumbsWrap">
-						<ul className="b-gallery-thumbs">
-							{this.state.images.map(function(image, i){
-								return (
-									<li key={image.id}>
-										<a onClick={Actions.galleryShow.bind(null, image)}>
-											<img className={(this.state.idx === i ? 'm-active' : '') + (image.selected ? ' m-selected' : '')} src={'images/mythumbs/' + image.filename} />
-										</a>
-									</li>
-								);
-							}, this)}
-						</ul>
+					{this.state.info ? <div className="b-gallery-info">
+						<h4>
+							<a target="_blank" href={this.state.image.page} title={this.state.image.titlefull}>
+								{this.state.image.title}
+							</a>
+						</h4>
+						<form onChange={this.inputHandler}>
+							<div class="checkboxes">
+								{GalleriesStore.list.map(function(gallery, i){
+									return (
+										<label>
+											<input type="checkbox" name="galleries[]" checked={this.state.image.galleries.indexOf(gallery.title) !== -1} value={gallery.title} />
+											{gallery.title}
+										</label>
+									);
+								}, this)}
+							</div>
+						</form>
+						<p>
+							{this.state.image.categories.join(', ')}
+						</p>
+						<p>
+							{this.state.image.date}
+						</p>
+						<p>
+							<a target="_blank" href={'http://' + this.state.image.username + '.deviantart.com/gallery/'}>
+								{this.state.image.nickname}
+							</a>
+						</p>
+					</div> : null}
+					<div className="b-gallery-main">
+						<a className="b-gallery-close" onClick={Actions.galleryClose}></a>
+						<a className="b-gallery-update" onClick={Actions.galleryUpdate}></a>
+						<div className="b-gallery-imageWrap">
+							<img className="b-gallery-image" src={this.state.src} />
+							<a className="b-gallery-prev" onClick={Actions.galleryPrev}></a>
+							<a className="b-gallery-next" onClick={Actions.galleryNext}></a>
+						</div>
+						<div className="b-gallery-thumbsWrap" ref="thumbsWrap">
+							<ul className="b-gallery-thumbs">
+								{this.state.images.map(function(image, i){
+									return (
+										<li key={image.id}>
+											<a onClick={Actions.galleryShow.bind(null, image)}>
+												<img className={(this.state.image === image ? 'm-active' : '') + (image.selected ? ' m-selected' : '')} src={'images/mythumbs/' + image.filename} />
+											</a>
+										</li>
+									);
+								}, this)}
+							</ul>
+						</div>
 					</div>
 				</div>
 			);

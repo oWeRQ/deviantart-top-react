@@ -1,6 +1,7 @@
 define(function(require){
 	var Reflux = require('reflux');
 	var Actions = require('Actions');
+	var utils = require('utils');
 	var jQuery = require('jquery');
 
 	return Reflux.createStore({
@@ -10,7 +11,7 @@ define(function(require){
 
 		defaults: {
 			title: '',
-			galleries: ['Abstract'],
+			galleries: [],
 			exclude: [],
 			condition: 'or',
 			minFavs: '1',
@@ -24,8 +25,11 @@ define(function(require){
 			sortDir: '1'
 		},
 
-		getInitialState: function () {
-			this.state = jQuery.extend(true, {}, this.defaults);
+		getInitialState: function(){
+			var query = utils.parseQuery(window.location.hash.substr(1));
+
+			this.state = jQuery.extend(true, {}, this.defaults, query);
+
 			return this.state;
 		},
 

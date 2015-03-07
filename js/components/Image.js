@@ -28,8 +28,6 @@ define(function(require){
 						data-galleries={this.props.image.galleries.join(', ')}>
 						<img src={'images/mythumbs/' + this.props.image.filename} />
 					</a>
-					<a className="m-similar" href={'similar.php?id=' + this.props.image.id} target="_blank"></a>
-					<a className="m-update" href="#"></a>
 				</li>
 			);
 		}

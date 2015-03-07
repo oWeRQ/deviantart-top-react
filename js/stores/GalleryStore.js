@@ -9,7 +9,9 @@ define(function(require){
 		getInitialState: function(){
 			this.state = {
 				visible: false,
+				info: false,
 				username: null,
+				image: null,
 				src: null,
 				idx: -1,
 				totalImages: 0,
@@ -19,8 +21,18 @@ define(function(require){
 			return this.state;
 		},
 
+		onImagesChange: function(){
+			this.trigger(this.state);
+		},
+
 		onGalleryClose: function(){
 			this.state.visible = false;
+
+			this.trigger(this.state);
+		},
+
+		onGalleryUpdate: function(){
+			this.state.info = !this.state.info;
 
 			this.trigger(this.state);
 		},
@@ -30,6 +42,7 @@ define(function(require){
 
 			this.state.visible = true;
 			this.state.username = image.author;
+			this.state.image = image;
 			this.state.src = 'images/original/' + image.filename;
 			this.state.idx = author.images.indexOf(image);
 			this.state.totalImages = author.favourites;

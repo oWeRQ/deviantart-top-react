@@ -9,26 +9,13 @@ define(function(require){
 	return React.createClass({
 		displayName: 'Images',
 
-		//mixins: [Reflux.connect(GalleriesStore, 'galleriesList')],
+		mixins: [Reflux.connect(GalleriesStore, 'galleriesList')],
 
-		getInitialState: function(){
-			return {
-				galleriesList: GalleriesStore.list
-			};
-		},
+		authorHandler: function(e){
+			e.preventDefault();
 
-		onGalleriesChange: function(galleriesList) {
-			this.setState({
-				galleriesList: galleriesList
-			});
-		},
-
-		componentDidMount: function() {
-			this.unsubscribeGalleries = GalleriesStore.listen(this.onGalleriesChange);
-		},
-
-		componentWillUnmount: function() {
-			this.unsubscribeGalleries();
+			Actions.filterValue('title', 'by:' + this.props.author.username);
+			Actions.filterLoad();
 		},
 
 		moreHandler: function(e){
@@ -71,7 +58,7 @@ define(function(require){
 					</div>
 					<h3>
 						<span className="b-images-number">{this.props.num}</span>
-						<a target="_blank" href="">{this.props.author.username}</a>
+						<a target="_blank" onClick={this.authorHandler} href={window.location.pathname + '#username=' + this.props.author.username}>{this.props.author.username}</a>
 						<small>
 							{this.props.author.favourites}
 							/ {this.props.author.deviations}

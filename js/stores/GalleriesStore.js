@@ -6,10 +6,19 @@ define(function(require){
 	return Reflux.createStore({
 		listenables: [Actions],
 
-		getInitialState: function () {
-			//console.log('GalleriesStore.getInitialState', this);
+		init: function(){
 			this.list = [];
+		},
+
+		getInitialState: function () {
 			return this.list;
+		},
+
+		getByTitle: function(title){
+			for (var i = 0; i < this.list.length; i++) {
+				if (this.list[i].title === title)
+					return this.list[i];
+			}
 		},
 
 		onLoadGalleries: function(){

@@ -14,6 +14,7 @@ define(function(require){
 		'loadMoreComplete',
 		'setGalleries',
 		'galleryClose',
+		'galleryUpdate',
 		'galleryShow',
 		'galleryNext',
 		'galleryPrev',
@@ -24,6 +25,7 @@ define(function(require){
 		'imagesCheck',
 		'imagesAdd',
 		'imagesRemove',
-		'imagesDelete'
+		'imagesDelete',
+		'imagesChange'
 	]);
 });

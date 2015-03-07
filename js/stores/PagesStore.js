@@ -70,9 +70,8 @@ define(function(require){
 				for (var j = 0; j < pages[i].authors.length; j++) {
 					for (var k = 0; k < pages[i].authors[j].images.length; k++) {
 						if (pages[i].authors[j].images[k].id === id) {
-							delete pages[i].authors[j].images[k];
-							pages[i].authors[j].favourites--;
-							return true;
+							pages[i].authors[j].images.splice(k, 1);
+							return pages[i].authors[j];
 						}
 					}
 				}
@@ -81,6 +80,8 @@ define(function(require){
 		},
 
 		onLoad: function(filter){
+			window.location.hash = jQuery.param(filter);
+
 			this.filter = jQuery.extend(true, {ajax: 1}, filter);
 
 			this.state.disabled = true;
@@ -118,6 +119,11 @@ define(function(require){
 		},
 
 		onLoadPrev: function(){
+			if (this.state.disabled)
+				return;
+
+			this.state.disabled = true;
+			
 			var data = jQuery.extend({}, this.filter, {
 				page: this.state.startPage - 1
 			});
@@ -127,6 +133,7 @@ define(function(require){
 				data: data,
 				dataType: 'json',
 				success: function(result) {
+					this.state.disabled = false;
 					this.state.startPage = result.page;
 					this.state.prevUrl = result.prevUrl;
 					this.state.pages.unshift({
@@ -143,6 +150,11 @@ define(function(require){
 		},
 
 		onLoadNext: function(){
+			if (this.state.disabled)
+				return;
+
+			this.state.disabled = true;
+
 			var data = jQuery.extend({}, this.filter, {
 				page: this.state.endPage + 1
 			});
@@ -152,6 +164,7 @@ define(function(require){
 				data: data,
 				dataType: 'json',
 				success: function(result) {
+					this.state.disabled = false;
 					this.state.endPage = result.page;
 					this.state.nextUrl = result.nextUrl;
 					this.state.pages.push({
@@ -252,8 +265,9 @@ define(function(require){
 			this.trigger(this.state);
 		},
 
-		onImagesAdd: function(gallery){
-			var images = this.getSelectedImages();
+		onImagesAdd: function(gallery, images){
+			if (!Array.isArray(images))
+				images = this.getSelectedImages();
 
 			if (images.length === 0)
 				return;
@@ -274,6 +288,7 @@ define(function(require){
 						jQuery.extend(this.getImage(image.id), image);
 					}.bind(this));
 					this.trigger(this.state);
+					Actions.imagesChange();
 				}.bind(this),
 				error: function(xhr, status, err){
 					console.error('PagesStore.onImagesAdd', status, err.toString());
@@ -281,8 +296,9 @@ define(function(require){
 			});
 		},
 
-		onImagesRemove: function(gallery){
-			var images = this.getSelectedImages();
+		onImagesRemove: function(gallery, images){
+			if (!Array.isArray(images))
+				images = this.getSelectedImages();
 
 			if (images.length === 0)
 				return;
@@ -303,6 +319,7 @@ define(function(require){
 						jQuery.extend(this.getImage(image.id), image);
 					}.bind(this));
 					this.trigger(this.state);
+					Actions.imagesChange();
 				}.bind(this),
 				error: function(xhr, status, err){
 					console.error('PagesStore.onImagesAdd', status, err.toString());
@@ -335,9 +352,12 @@ define(function(require){
 				dataType: 'json',
 				success: function(result){
 					result.images.forEach(function(image){
-						this.deleteImage(image.id);
+						var author = this.deleteImage(image.id);
+						if (author)
+							author.favourites--;
 					}.bind(this));
 					this.trigger(this.state);
+					Actions.imagesChange();
 				}.bind(this),
 				error: function(xhr, status, err){
 					console.error('PagesStore.onImagesAdd', status, err.toString());

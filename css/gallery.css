@@ -11,8 +11,8 @@
 	position: absolute;
 	z-index: 1;
 	top: 0;
-	right: 0;
-	padding: 20px;
+	left: 0;
+	padding: 15px;
 	text-decoration: none;
 	line-height: 0.84;
 	font-size: 40px;
@@ -27,12 +27,32 @@
 .b-gallery-close::after {
 	content: '\2716'; /* cross */
 }
+.b-gallery-update {
+	position: absolute;
+	z-index: 1;
+	top: 0;
+	right: 0;
+	padding: 15px;
+	text-decoration: none;
+	line-height: 0.84;
+	font-size: 40px;
+	color: white;
+	cursor: pointer;
+	opacity: .2;
+}
+.b-gallery-update:hover {
+	color: white;
+	opacity: .4;
+}
+.b-gallery-update::after {
+	content: '\270E';
+}
 .b-gallery-imageWrap {
 	position: absolute;
 	top: 14px;
-	right: 0;
-	left: 0;
-	bottom: 160px;
+	right: 14px;
+	left: 14px;
+	bottom: 150px;
 	text-align: center;
 }
 .b-gallery-imageWrap::after {
@@ -92,7 +112,7 @@
 	left: 0;
 	right: 0;
 	bottom: 0;
-	padding-bottom: 15px;
+	padding-bottom: 5px;
 	height: 140px;
 }
 .b-gallery-thumbs {
@@ -125,4 +145,42 @@
 }
 .b-gallery-thumbs img.m-selected {
 	border-color: rgba(51,102,204,.7);
+}
+
+.b-gallery-main {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+}
+.b-gallery-info {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	width: 160px;
+	padding: 16px;
+	background: white;
+	/*background-image: linear-gradient(to left, white 96%, #ddd);*/
+	box-shadow: inset 0 0 8px #ccc;
+}
+.b-gallery-info + .b-gallery-main {
+	right: 192px;
+}
+.b-gallery-info h4 {
+	overflow: hidden;
+	margin-top: 0;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+.b-gallery-info p {
+
+}
+.b-gallery-info label {
+	display: block;
+	margin: 4px 0;
+}
+.b-gallery-info input {
+	margin-right: 4px;
 }
