@@ -22,6 +22,12 @@ define(function(require){
 			}
 		},
 
+		deleteHandler: function(e){
+			e.preventDefault();
+
+			Actions.imagesDelete([this.state.image]);
+		},
+
 		componentDidMount: function(){
 			this.listener = new Keypress.Listener();
 
@@ -33,25 +39,24 @@ define(function(require){
 				{keys: 'right', on_keydown: Actions.galleryNext},
 				{keys: 'd', on_keydown: Actions.galleryNext},
 				{keys: 'w', on_keydown: function(){
-					Actions.imagesSelect(this.state.images[this.state.idx], true);
+					Actions.imagesSelect(this.state.image, true);
 					Actions.galleryNext();
 				}.bind(this)},
 				{keys: 's', on_keydown: function(){
-					Actions.imagesSelect(this.state.images[this.state.idx], false);
+					Actions.imagesSelect(this.state.image, false);
 					Actions.galleryNext();
 				}.bind(this)},
 			]);
 		},
 
 		componentWillUnmount: function(){
-			//this.listener.unregister_many(this.keys);
 			this.listener.destroy();
 		},
 
 		componentDidUpdate: function(prevProps, prevState){
 			var wrap = this.refs.thumbsWrap.getDOMNode();
 			var ul = wrap.querySelector('ul');
-			var li = wrap.querySelector('li:nth-child(' + (this.state.idx + 1) + ')');
+			var li = wrap.querySelector('li:nth-child(' + (GalleryStore.getIndex() + 1) + ')');
 
 			if (ul && li) {
 				ul.style.left = -(li.offsetLeft - wrap.offsetWidth / 2 + li.offsetWidth / 2) + 'px';
@@ -99,18 +104,21 @@ define(function(require){
 								{this.state.image.nickname}
 							</a>
 						</p>
+						<p>
+							<a onClick={this.deleteHandler}>Delete Favourite</a>
+						</p>
 					</div> : null}
 					<div className="b-gallery-main">
 						<a className="b-gallery-close" onClick={Actions.galleryClose}></a>
 						<a className="b-gallery-update" onClick={Actions.galleryUpdate}></a>
 						<div className="b-gallery-imageWrap">
-							<img className="b-gallery-image" src={this.state.src} />
+							<img className="b-gallery-image" src={'images/original/' + this.state.image.filename} />
 							<a className="b-gallery-prev" onClick={Actions.galleryPrev}></a>
 							<a className="b-gallery-next" onClick={Actions.galleryNext}></a>
 						</div>
 						<div className="b-gallery-thumbsWrap" ref="thumbsWrap">
 							<ul className="b-gallery-thumbs">
-								{this.state.images.map(function(image, i){
+								{this.state.author.images.map(function(image, i){
 									return (
 										<li key={image.id}>
 											<a onClick={Actions.galleryShow.bind(null, image)}>

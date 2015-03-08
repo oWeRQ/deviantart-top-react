@@ -21,7 +21,7 @@ define(function(require){
 			return (
 				<li>
 					<a onClick={this.clickHandler}
-						className={'m-showInGallery' + (this.props.image.selected ? ' selected' : '')}
+						className={'m-showInGallery' + (this.props.image.selected ? ' selected' : '') + (this.props.cursor ? ' m-cursor' : '')}
 						href={'images/original/' + this.props.image.filename}
 						target="_blank"
 						title={this.props.image.title}

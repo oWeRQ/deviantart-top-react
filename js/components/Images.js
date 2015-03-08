@@ -29,7 +29,7 @@ define(function(require){
 			var images = this.props.author.images.map(function(image){
 				if (image.selected)
 					imagesSelected++;
-				return <Image onClick={Actions.galleryShow.bind(this, image)} key={image.id} image={image} />;
+				return <Image onClick={Actions.galleryShow.bind(this, image)} key={image.id} image={image} cursor={this.props.author.cursor === image} />;
 			}, this);
 
 			return (
@@ -49,7 +49,7 @@ define(function(require){
 							{
 								title: 'None',
 								select: 'none'
-							}
+							},
 						]} />
 						<Select onChange={Actions.imagesAdd} text="Add Collection" options={this.state.galleriesList} />
 						<Select onChange={Actions.imagesRemove} text="Remove Collection" options={this.state.galleriesList} />

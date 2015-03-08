@@ -7,7 +7,7 @@ define(function(require){
 		listenables: [Actions],
 
 		filter: {},
-		
+
 		getInitialState: function(){
 			this.state = {
 				disabled: false,
@@ -126,7 +126,7 @@ define(function(require){
 				return;
 
 			this.state.disabled = true;
-			
+
 			var data = jQuery.extend({}, this.filter, {
 				page: this.state.startPage - 1
 			});
@@ -330,8 +330,9 @@ define(function(require){
 			});
 		},
 
-		onImagesDelete: function(){
-			var images = this.getSelectedImages();
+		onImagesDelete: function(images){
+			if (!Array.isArray(images))
+				images = this.getSelectedImages();
 
 			if (images.length === 0)
 				return;
@@ -366,6 +367,12 @@ define(function(require){
 					console.error('PagesStore.onImagesAdd', status, err.toString());
 				}.bind(this)
 			});
+		},
+
+		onImagesCursor: function(image){
+			this.state.selectedAuthor.cursor = image;
+
+			this.trigger(this.state);
 		}
 	});
 });

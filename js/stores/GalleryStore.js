@@ -10,15 +10,19 @@ define(function(require){
 			this.state = {
 				visible: false,
 				info: false,
-				username: null,
-				image: null,
-				src: null,
-				idx: -1,
-				totalImages: 0,
-				images: []
+				author: {
+					username: null,
+					favourites: 0,
+					images: []
+				},
+				image: {}
 			};
 
 			return this.state;
+		},
+
+		getIndex: function(){
+			return this.state.author.images.indexOf(this.state.image);
 		},
 
 		onImagesChange: function(){
@@ -38,41 +42,37 @@ define(function(require){
 		},
 
 		onGalleryShow: function(image){
-			var author = PagesStore.getAuthor(image.author);
-
 			this.state.visible = true;
-			this.state.username = image.author;
+			this.state.author = PagesStore.getAuthor(image.author);
 			this.state.image = image;
-			this.state.src = 'images/original/' + image.filename;
-			this.state.idx = author.images.indexOf(image);
-			this.state.totalImages = author.favourites;
-			this.state.images = author.images;
 
 			this.trigger(this.state);
 
-			if (this.state.images.length < this.state.totalImages
-				&& this.state.images.length <= this.state.idx + 3)
+			Actions.imagesCursor(image);
+
+			if (this.state.author.images.length < this.state.author.favourites
+				&& this.state.author.images.length <= this.getIndex() + 3)
 			{
-				Actions.loadMore(this.state.username);
+				Actions.loadMore(this.state.author.username);
 			}
 		},
 
 		onGalleryPrev: function(){
-			var newIdx = this.state.idx - 1;
+			var newIdx = this.getIndex() - 1;
 			if (newIdx < 0)
-				newIdx = this.state.images.length - 1;
-			Actions.galleryShow(this.state.images[newIdx]);
+				newIdx = this.state.author.images.length - 1;
+			Actions.galleryShow(this.state.author.images[newIdx]);
 		},
 
 		onGalleryNext: function(){
-			var newIdx = this.state.idx + 1;
-			if (newIdx >= this.state.images.length)
+			var newIdx = this.getIndex() + 1;
+			if (newIdx >= this.state.author.images.length)
 				newIdx = 0;
-			Actions.galleryShow(this.state.images[newIdx]);
+			Actions.galleryShow(this.state.author.images[newIdx]);
 		},
 
 		onLoadMoreComplete: function(author){
-			if (this.state.username === author.username)
+			if (this.state.author.username === author.username)
 				this.trigger(this.state);
 		}
 	});

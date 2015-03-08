@@ -26,6 +26,7 @@ define(function(require){
 		'imagesAdd',
 		'imagesRemove',
 		'imagesDelete',
-		'imagesChange'
+		'imagesChange',
+		'imagesCursor',
 	]);
 });
