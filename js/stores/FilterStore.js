@@ -25,6 +25,8 @@ define(function(require){
 			sortDir: '1'
 		},
 
+		changeTimeout: null,
+
 		getInitialState: function(){
 			var query = utils.parseQuery(window.location.hash.substr(1));
 
@@ -46,6 +48,17 @@ define(function(require){
 			} else {
 				this.state[name] = value;
 			}
+
+			if (name === 'galleries' && checked && (idx = this.state.exclude.indexOf(value)) !== -1) {
+				this.state.exclude.splice(idx, 1);
+			}
+
+			if (name === 'exclude' && checked && (idx = this.state.galleries.indexOf(value)) !== -1) {
+				this.state.galleries.splice(idx, 1);
+			}
+
+			clearTimeout(this.changeTimeout);
+			this.changeTimeout = setTimeout(Actions.filterLoad, 1000);
 
 			this.trigger(this.state);
 		},

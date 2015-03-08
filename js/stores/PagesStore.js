@@ -80,6 +80,9 @@ define(function(require){
 		},
 
 		onLoad: function(filter){
+			if (this.jqxhr)
+				this.jqxhr.abort();
+
 			window.location.hash = jQuery.param(filter);
 
 			this.filter = jQuery.extend(true, {ajax: 1}, filter);
@@ -89,7 +92,7 @@ define(function(require){
 				disabled: true
 			});
 
-			jQuery.ajax({
+			this.jqxhr = jQuery.ajax({
 				url: rootUrl,
 				data: this.filter,
 				dataType: 'json',
@@ -128,7 +131,7 @@ define(function(require){
 				page: this.state.startPage - 1
 			});
 
-			jQuery.ajax({
+			this.jqxhr = jQuery.ajax({
 				url: rootUrl,
 				data: data,
 				dataType: 'json',
@@ -159,7 +162,7 @@ define(function(require){
 				page: this.state.endPage + 1
 			});
 
-			jQuery.ajax({
+			this.jqxhr = jQuery.ajax({
 				url: rootUrl,
 				data: data,
 				dataType: 'json',
@@ -193,7 +196,7 @@ define(function(require){
 				imagesOffset: author.images.length
 			}, this.filter);
 
-			jQuery.ajax({
+			this.jqxhr = jQuery.ajax({
 				url: rootUrl,
 				data: data,
 				dataType: 'json',
@@ -272,7 +275,7 @@ define(function(require){
 			if (images.length === 0)
 				return;
 
-			jQuery.ajax({
+			this.jqxhr = jQuery.ajax({
 				url: rootUrl,
 				data: {
 					action: 'AddGallery',
@@ -303,7 +306,7 @@ define(function(require){
 			if (images.length === 0)
 				return;
 
-			jQuery.ajax({
+			this.jqxhr = jQuery.ajax({
 				url: rootUrl,
 				data: {
 					action: 'RemoveGallery',
@@ -340,7 +343,7 @@ define(function(require){
 			if (confirmed !== true)
 				return;
 
-			jQuery.ajax({
+			this.jqxhr = jQuery.ajax({
 				url: rootUrl,
 				data: {
 					action: 'deleteFavorites',

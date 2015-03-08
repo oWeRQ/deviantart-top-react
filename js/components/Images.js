@@ -15,7 +15,6 @@ define(function(require){
 			e.preventDefault();
 
 			Actions.filterValue('title', 'by:' + this.props.author.username);
-			Actions.filterLoad();
 		},
 
 		moreHandler: function(e){
