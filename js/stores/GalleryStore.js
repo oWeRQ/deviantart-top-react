@@ -26,6 +26,11 @@ define(function(require){
 		},
 
 		onImagesChange: function(){
+			if (this.state.author.images.length === 0)
+				this.state.visible = false;
+			else
+				this.state.image = this.state.author.cursor;
+
 			this.trigger(this.state);
 		},
 

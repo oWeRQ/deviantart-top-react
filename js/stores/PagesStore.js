@@ -70,13 +70,43 @@ define(function(require){
 				for (var j = 0; j < pages[i].authors.length; j++) {
 					for (var k = 0; k < pages[i].authors[j].images.length; k++) {
 						if (pages[i].authors[j].images[k].id === id) {
+							if (this.state.selectedAuthor.cursor.id === id) {
+								this.state.selectedAuthor.cursor = pages[i].authors[j].images[(k + 1) % pages[i].authors[j].images.length];
+							}
 							pages[i].authors[j].images.splice(k, 1);
+							pages[i].authors[j].favourites--;
 							return pages[i].authors[j];
 						}
 					}
 				}
 			}
 			return false;
+		},
+
+		updateImage: function(id, image){
+			if (Array.isArray(image.galleries)) {
+				var inGalleries = 0;
+
+				for (var i = 0; i < image.galleries.length; i++) {
+					if (this.filter.exclude.indexOf(image.galleries[i]) !== -1) {
+						this.deleteImage(id);
+						return false;
+					}
+
+					if (this.filter.galleries.indexOf(image.galleries[i]) !== -1) {
+						inGalleries++;
+					}
+				}
+
+				if ((this.filter.condition === 'or' && inGalleries < 1)
+					|| (this.filter.condition === 'and' && inGalleries >= this.filter.galleries.length)
+					|| (this.filter.condition === 'only' && inGalleries === this.filter.galleries.length)
+				) {
+					this.deleteImage(id);
+					return false;
+				}
+			}
+			return jQuery.extend(this.getImage(id), image);
 		},
 
 		onLoad: function(filter){
@@ -275,7 +305,7 @@ define(function(require){
 			if (images.length === 0)
 				return;
 
-			this.jqxhr = jQuery.ajax({
+			jQuery.ajax({
 				url: rootUrl,
 				data: {
 					action: 'AddGallery',
@@ -288,9 +318,11 @@ define(function(require){
 				dataType: 'json',
 				success: function(result){
 					result.images.forEach(function(image){
-						jQuery.extend(this.getImage(image.id), image);
+						this.updateImage(image.id, image);
 					}.bind(this));
+
 					this.trigger(this.state);
+
 					Actions.imagesChange();
 				}.bind(this),
 				error: function(xhr, status, err){
@@ -306,7 +338,7 @@ define(function(require){
 			if (images.length === 0)
 				return;
 
-			this.jqxhr = jQuery.ajax({
+			jQuery.ajax({
 				url: rootUrl,
 				data: {
 					action: 'RemoveGallery',
@@ -319,9 +351,11 @@ define(function(require){
 				dataType: 'json',
 				success: function(result){
 					result.images.forEach(function(image){
-						jQuery.extend(this.getImage(image.id), image);
+						this.updateImage(image.id, image);
 					}.bind(this));
+
 					this.trigger(this.state);
+
 					Actions.imagesChange();
 				}.bind(this),
 				error: function(xhr, status, err){
@@ -344,7 +378,7 @@ define(function(require){
 			if (confirmed !== true)
 				return;
 
-			this.jqxhr = jQuery.ajax({
+			jQuery.ajax({
 				url: rootUrl,
 				data: {
 					action: 'deleteFavorites',
@@ -356,11 +390,11 @@ define(function(require){
 				dataType: 'json',
 				success: function(result){
 					result.images.forEach(function(image){
-						var author = this.deleteImage(image.id);
-						if (author)
-							author.favourites--;
+						this.deleteImage(image.id);
 					}.bind(this));
+
 					this.trigger(this.state);
+
 					Actions.imagesChange();
 				}.bind(this),
 				error: function(xhr, status, err){
