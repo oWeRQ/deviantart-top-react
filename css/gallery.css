@@ -3,8 +3,8 @@ body.m-gallery {
 }
 body.m-gallery .l-sidebar,
 body.m-gallery .l-content {
-	filter: blur(4px);
 	-webkit-filter: blur(4px);
+	filter: blur(4px);
 }
 .b-gallery {
 	position: fixed;
@@ -24,12 +24,13 @@ body.m-gallery .l-content {
 	text-decoration: none;
 	line-height: 0.84;
 	font-size: 40px;
-	color: white;
+	color: #ccc;
 	cursor: pointer;
-	opacity: .2;
+	opacity: .3;
+	text-shadow: 0px 0px 2px black;
 }
 .b-gallery-close:hover {
-	color: white;
+	color: #ccc;
 	opacity: .4;
 }
 .b-gallery-close::after {
@@ -44,12 +45,13 @@ body.m-gallery .l-content {
 	text-decoration: none;
 	line-height: 0.84;
 	font-size: 40px;
-	color: white;
+	color: #ccc;
 	cursor: pointer;
-	opacity: .2;
+	opacity: .3;
+	text-shadow: 0px 0px 2px black;
 }
 .b-gallery-update:hover {
-	color: white;
+	color: #ccc;
 	opacity: .4;
 }
 .b-gallery-update::after {
