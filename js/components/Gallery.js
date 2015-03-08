@@ -46,6 +46,9 @@ define(function(require){
 					Actions.imagesSelect(this.state.image, false);
 					Actions.galleryNext();
 				}.bind(this)},
+				{keys: 'delete', on_keydown: function(){
+					Actions.imagesDelete([this.state.image]);
+				}.bind(this)},
 			]);
 		},
 

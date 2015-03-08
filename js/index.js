@@ -16,9 +16,9 @@ define(function(require){
 	var Actions = require('Actions');
 	var GalleriesStore = require('stores/GalleriesStore');
 	var App = require('jsx!components/App');
-	
+
 	React.render(
-		React.createFactory(App)(),
+		App(),
 		document.body
 	);
 
