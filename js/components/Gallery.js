@@ -115,7 +115,7 @@ define(function(require){
 						<a className="b-gallery-close" onClick={Actions.galleryClose}></a>
 						<a className="b-gallery-update" onClick={Actions.galleryUpdate}></a>
 						<div className="b-gallery-imageWrap">
-							<img className="b-gallery-image" src={'images/original/' + this.state.image.filename} />
+							<img className="b-gallery-image" src={rootUrl + 'images/original/' + this.state.image.filename} />
 							<a className="b-gallery-prev" onClick={Actions.galleryPrev}></a>
 							<a className="b-gallery-next" onClick={Actions.galleryNext}></a>
 						</div>
@@ -125,7 +125,7 @@ define(function(require){
 									return (
 										<li key={image.id}>
 											<a onClick={Actions.galleryShow.bind(null, image)}>
-												<img className={(this.state.image === image ? 'm-active' : '') + (image.selected ? ' m-selected' : '')} src={'images/mythumbs/' + image.filename} />
+												<img className={(this.state.image === image ? 'm-active' : '') + (image.selected ? ' m-selected' : '')} src={rootUrl + 'images/mythumbs/' + image.filename} />
 											</a>
 										</li>
 									);

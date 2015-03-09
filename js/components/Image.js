@@ -22,11 +22,11 @@ define(function(require){
 				<li>
 					<a onClick={this.clickHandler}
 						className={'m-showInGallery' + (this.props.image.selected ? ' selected' : '') + (this.props.cursor ? ' m-cursor' : '')}
-						href={'images/original/' + this.props.image.filename}
+						href={rootUrl + 'images/original/' + this.props.image.filename}
 						target="_blank"
 						title={this.props.image.title}
 						data-galleries={this.props.image.galleries.join(', ')}>
-						<img src={'images/mythumbs/' + this.props.image.filename} />
+						<img src={rootUrl + 'images/mythumbs/' + this.props.image.filename} />
 					</a>
 				</li>
 			);
