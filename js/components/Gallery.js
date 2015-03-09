@@ -34,6 +34,7 @@ define(function(require){
 			this.keys = this.listener.register_many([
 				{keys: 'esc', on_keydown: Actions.galleryClose},
 				{keys: 'q', on_keydown: Actions.galleryClose},
+				{keys: 'e', on_keydown: Actions.galleryUpdate},
 				{keys: 'left', on_keydown: Actions.galleryPrev},
 				{keys: 'a', on_keydown: Actions.galleryPrev},
 				{keys: 'right', on_keydown: Actions.galleryNext},

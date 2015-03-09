@@ -67,10 +67,15 @@ define(function(require){
 						</small>
 						<sup><a target="_blank" href={'http://' + this.props.author.username + '.deviantart.com/gallery/'}>DA</a></sup>
 					</h3>
-					<ul className="b-inline b-images-list">
+					<ul className="b-images-list">
 						{images}
+						{moreCount > 0 ? (
+							<li className="b-images-more">
+								<a href="#" onClick={this.moreHandler}>More Images ({moreCount})</a>
+							</li>
+						) : null}
 					</ul>
-					{moreCount > 0 ? <a href="#" onClick={this.moreHandler} className="m-moreImages">More Images (<span className="count">{moreCount}</span>)</a> : null}
+					
 				</div>
 			);
 		}

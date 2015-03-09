@@ -3,9 +3,10 @@
 }
 
 .l-sidebar {
-	position: fixed;
 	overflow-x: hidden;
 	overflow-y: auto;
+	position: fixed;
+	z-index: 10;
 	left: 0;
 	top: 0;
 	bottom: 0;

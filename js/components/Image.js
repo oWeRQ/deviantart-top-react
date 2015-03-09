@@ -1,6 +1,7 @@
 define(function(require){
 	var React = require('react');
 	var Actions = require('Actions');
+	var cx = React.addons.classSet;
 
 	return React.createClass({
 		displayName: 'Image',
@@ -21,11 +22,14 @@ define(function(require){
 			return (
 				<li>
 					<a onClick={this.clickHandler}
-						className={'m-showInGallery' + (this.props.image.selected ? ' selected' : '') + (this.props.cursor ? ' m-cursor' : '')}
-						href={rootUrl + 'images/original/' + this.props.image.filename}
-						target="_blank"
+						className={cx({
+							'm-cursor': this.props.cursor,
+							'm-selected': this.props.image.selected,
+						})}
 						title={this.props.image.title}
-						data-galleries={this.props.image.galleries.join(', ')}>
+						data-galleries={this.props.image.galleries.join(', ')}
+						target="_blank"
+						href={rootUrl + 'images/original/' + this.props.image.filename}>
 						<img src={rootUrl + 'images/mythumbs/' + this.props.image.filename} />
 					</a>
 				</li>
