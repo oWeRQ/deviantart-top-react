@@ -3,6 +3,7 @@ define(function(require){
 	var Filter = require('jsx!components/Filter');
 	var Pages = require('jsx!components/Pages');
 	var Gallery = require('jsx!components/Gallery');
+	var Undo = require('jsx!components/Undo');
 
 	return React.createClass({
 		displayName: 'App',
@@ -19,6 +20,8 @@ define(function(require){
 					</div>
 
 					<Gallery />
+
+					<Undo />
 				</div>
 			);
 		}

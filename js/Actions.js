@@ -28,5 +28,7 @@ define(function(require){
 		'imagesDelete',
 		'imagesChange',
 		'imagesCursor',
+		'undoPush',
+		'undo',
 	]);
 });
