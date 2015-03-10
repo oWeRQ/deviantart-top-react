@@ -70,7 +70,6 @@ body.m-gallery .l-content {
 	position: absolute;
 	top: 0;
 	bottom: 0;
-	margin: -16px;
 	width: 66px;
 	cursor: pointer;
 	opacity: .5;
@@ -171,7 +170,7 @@ body.m-gallery .l-content {
 .b-gallery-info h4 {
 	overflow: hidden;
 	margin-top: 0;
-	margin-bottom: 0.5em;
+	margin-bottom: 1em;
 	white-space: nowrap;
 	text-overflow: ellipsis;
 }
@@ -180,8 +179,9 @@ body.m-gallery .l-content {
 }
 .b-gallery-info label {
 	display: block;
-	margin: 0 -4px;
+	margin: 2px 0;
 	padding: 4px;
+	border-left: 4px solid transparent;
 }
 .b-gallery-info label:hover {
 	background: #fff;

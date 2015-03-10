@@ -5,6 +5,7 @@ define(function(require){
 	var GalleryStore = require('stores/GalleryStore');
 	var GalleriesStore = require('stores/GalleriesStore');
 	var Keypress = require('Keypress');
+	var utils = require('utils');
 
 	return React.createClass({
 		displayName: 'Gallery',
@@ -89,7 +90,10 @@ define(function(require){
 							<div class="checkboxes">
 								{GalleriesStore.list.map(function(gallery, i){
 									return (
-										<label>
+										<label style={{
+											borderLeftColor: utils.str2color(gallery.title, 90, 35),
+											backgroundColor: utils.str2color(gallery.title, 25, 90),
+										}}>
 											<input type="checkbox" name="galleries[]" checked={this.state.image.galleries.indexOf(gallery.title) !== -1} value={gallery.title} />
 											{gallery.title}
 										</label>
@@ -117,9 +121,9 @@ define(function(require){
 						<a className="b-gallery-update" onClick={Actions.galleryUpdate}></a>
 						<div className="b-gallery-imageWrap">
 							<img className="b-gallery-image" src={rootUrl + 'images/original/' + this.state.image.filename} />
-							<a className="b-gallery-prev" onClick={Actions.galleryPrev}></a>
-							<a className="b-gallery-next" onClick={Actions.galleryNext}></a>
 						</div>
+						<a className="b-gallery-prev" onClick={Actions.galleryPrev}></a>
+						<a className="b-gallery-next" onClick={Actions.galleryNext}></a>
 						<div className="b-gallery-thumbsWrap" ref="thumbsWrap">
 							<ul className="b-gallery-thumbs">
 								{this.state.author.images.map(function(image, i){

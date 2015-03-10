@@ -98,12 +98,14 @@ define(function(require){
 					}
 				}
 
-				if ((this.filter.condition === 'or' && inGalleries < 1)
-					|| (this.filter.condition === 'and' && inGalleries >= this.filter.galleries.length)
-					|| (this.filter.condition === 'only' && inGalleries === this.filter.galleries.length)
-				) {
-					this.deleteImage(id);
-					return false;
+				if (this.filter.galleries.length !== 0) {
+					if ((this.filter.condition === 'or' && inGalleries < 1)
+						|| (this.filter.condition === 'and' && inGalleries >= this.filter.galleries.length)
+						|| (this.filter.condition === 'only' && inGalleries === this.filter.galleries.length)
+					) {
+						this.deleteImage(id);
+						return false;
+					}
 				}
 			}
 			return jQuery.extend(this.getImage(id), image);
