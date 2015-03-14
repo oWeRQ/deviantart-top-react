@@ -14,14 +14,14 @@ require.config({
 define(function(require){
 	var React = require('react');
 	var Actions = require('Actions');
-	var GalleriesStore = require('stores/GalleriesStore');
 	var App = require('jsx!components/App');
 
 	React.render(
 		App(),
-		document.body
+		document.body,
+		function(){
+			Actions.loadGalleries();
+			Actions.filterLoad();
+		}
 	);
-
-	Actions.loadGalleries();
-	Actions.filterLoad();
 });

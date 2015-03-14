@@ -12,6 +12,9 @@
 	margin: 8px 2px;
 	margin-left: -500px;
 }
+.b-images-actions .m-button {
+	margin-right: 4px;
+}
 .b-images.m-active .b-images-actions {
 	display: block;
 }
