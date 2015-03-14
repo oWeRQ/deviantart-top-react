@@ -180,17 +180,41 @@ body.m-gallery .l-content {
 	margin: 1em 0;
 }
 .b-gallery-info label {
+	position: relative;
 	display: block;
-	margin: 2px 0;
-	padding: 4px;
-	border-left: 4px solid transparent;
+	margin: 2px -8px;
+	padding: 4px 8px;
 }
 .b-gallery-info label:hover {
 	background: #fff;
 }
+.b-gallery-info label .m-color {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 0;
+	opacity: 1;
+	transition: width 200ms, opacity 300ms;
+}
+.b-gallery-info label:hover .m-color {
+	width: 6px;
+}
+.b-gallery-info label:active .m-color {
+	width: 100%;
+	opacity: 0;
+}
+.b-gallery-info label::after {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
 .b-gallery-info input {
 	margin-right: 4px;
 }
-.b-gallery-info input:checked + span {
+.b-gallery-info input:checked ~ .m-text {
 	font-weight: bold;
 }

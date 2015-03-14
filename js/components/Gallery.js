@@ -90,12 +90,10 @@ define(function(require){
 							<div class="checkboxes">
 								{GalleriesStore.list.map(function(gallery, i){
 									return (
-										<label style={{
-											borderLeftColor: utils.str2color(gallery.title, 90, 35),
-											backgroundColor: utils.str2color(gallery.title, 25, 90),
-										}}>
+										<label>
 											<input type="checkbox" name="galleries[]" checked={this.state.image.galleries.indexOf(gallery.title) !== -1} value={gallery.title} />
-											{gallery.title}
+											<span className="m-color" style={{backgroundColor: utils.str2color(gallery.title, 90, 35)}} />
+											<span className="m-text">{gallery.title}</span>
 										</label>
 									);
 								}, this)}
