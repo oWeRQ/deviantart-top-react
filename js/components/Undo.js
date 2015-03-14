@@ -10,14 +10,15 @@ define(function(require){
 		mixins: [Reflux.connect(UndoStore)],
 
 		render: function(){
+			if (this.state.actions.length === 0)
+				return null;
+
 			return (
-				<div className="b-undo" style={{display: this.state.actions.length ? '' : 'none'}}>
-					<ul>
-						{this.state.actions.map(function(action){
-							return <li>{action.description}</li>;
-						})}
-					</ul>
-					<button onClick={Actions.undo}>Undo</button>
+				<div className="b-undo">
+					<span className="b-undo-description">
+						{this.state.actions[this.state.actions.length-1].description}
+					</span>
+					<button onClick={Actions.undo} className="m-button">Undo</button>
 				</div>
 			);
 		},

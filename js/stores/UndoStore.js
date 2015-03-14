@@ -15,6 +15,11 @@ define(function(require){
 			return this.state;
 		},
 
+		onFilterLoad: function(){
+			this.state.actions.length = 0;
+			this.trigger(this.state);
+		},
+
 		onUndoPush: function(description, undo){
 			this.state.actions.push({
 				description: description,
