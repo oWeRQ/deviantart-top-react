@@ -68,14 +68,27 @@ define(function(require){
 		deleteImage: function(id){
 			for (var i = 0, pages = this.state.pages; i < pages.length; i++) {
 				for (var j = 0; j < pages[i].authors.length; j++) {
-					for (var k = 0; k < pages[i].authors[j].images.length; k++) {
-						if (pages[i].authors[j].images[k].id === id) {
+					var author = pages[i].authors[j];
+					for (var k = 0; k < author.images.length; k++) {
+						if (author.images[k].id === id) {
+							Actions.undoPush(
+								'Hide Image "' + author.images[k].title + '"',
+								function(author, images, cursor){
+									author.images = images;
+									author.cursor = cursor;
+									this.trigger(this.state);
+									Actions.imagesChange();
+								}.bind(this, author, author.images.slice(), author.cursor)
+							);
+
 							if (this.state.selectedAuthor.cursor.id === id) {
-								this.state.selectedAuthor.cursor = pages[i].authors[j].images[(k + 1) % pages[i].authors[j].images.length];
+								this.state.selectedAuthor.cursor = author.images[(k + 1) % author.images.length];
 							}
-							pages[i].authors[j].images.splice(k, 1);
-							pages[i].authors[j].favourites--;
-							return pages[i].authors[j];
+
+							author.images.splice(k, 1);
+							author.favourites--;
+
+							return author;
 						}
 					}
 				}
@@ -83,32 +96,38 @@ define(function(require){
 			return false;
 		},
 
-		updateImage: function(id, image){
-			if (Array.isArray(image.galleries)) {
-				var inGalleries = 0;
+		updateImage: function(id, imageData){
+			var image = this.getImage(id);
 
-				for (var i = 0; i < image.galleries.length; i++) {
-					if (this.filter.exclude.indexOf(image.galleries[i]) !== -1) {
-						this.deleteImage(id);
-						return false;
-					}
+			jQuery.extend(image, imageData);
 
-					if (this.filter.galleries.indexOf(image.galleries[i]) !== -1) {
-						inGalleries++;
-					}
-				}
+			if (!this.checkImageCondition(image))
+				this.deleteImage(id);
 
-				if (this.filter.galleries.length !== 0) {
-					if ((this.filter.condition === 'or' && inGalleries < 1)
-						|| (this.filter.condition === 'and' && inGalleries < this.filter.galleries.length)
-						|| (this.filter.condition === 'only' && inGalleries !== this.filter.galleries.length)
-					) {
-						this.deleteImage(id);
-						return false;
-					}
+			return image;
+		},
+
+		checkImageCondition: function(image){
+			var inGalleries = 0;
+
+			for (var i = 0; i < image.galleries.length; i++) {
+				if (this.filter.exclude.indexOf(image.galleries[i]) !== -1)
+					return false;
+
+				if (this.filter.galleries.indexOf(image.galleries[i]) !== -1)
+					inGalleries++;
+			}
+
+			if (this.filter.galleries.length !== 0) {
+				if ((this.filter.condition === 'or' && inGalleries < 1)
+					|| (this.filter.condition === 'and' && inGalleries < this.filter.galleries.length)
+					|| (this.filter.condition === 'only' && inGalleries !== this.filter.galleries.length)
+				) {
+					return false;
 				}
 			}
-			return jQuery.extend(this.getImage(id), image);
+
+			return true;
 		},
 
 		onLoad: function(filter){
